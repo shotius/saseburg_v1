@@ -10,6 +10,7 @@ const express_1 = __importDefault(require("express"));
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
 const helloResolver_1 = require("./resolvers/helloResolver");
+const userResolver_1 = require("./resolvers/userResolver");
 const main = async () => {
     const conn = await (0, typeorm_1.createConnection)({
         type: 'postgres',
@@ -23,7 +24,7 @@ const main = async () => {
     const app = (0, express_1.default)();
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [helloResolver_1.HelloResolver],
+            resolvers: [helloResolver_1.HelloResolver, userResolver_1.UserResolver],
             validate: false,
         }),
     });

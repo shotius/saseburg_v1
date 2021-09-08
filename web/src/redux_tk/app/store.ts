@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {authReducer} from "redux_tk/features/auth/authSlice";
-import  {postsReducer}  from "redux_tk/features/posts/homeSlice";
-import { displayReducer } from "redux_tk/features/display/displaySlice";
-import { autoLoginMiddleware } from "redux_tk/middlewares/autoLoginMiddleware";
+import {authReducer} from "src/redux_tk/features/auth/authSlice";
+import  {postsReducer}  from "src/redux_tk/features/posts/homeSlice";
+import { displayReducer } from "src/redux_tk/features/display/displaySlice";
+import { autoLoginMiddleware } from "src/redux_tk/middlewares/autoLoginMiddleware";
 
 const reducer = {
   posts: postsReducer,

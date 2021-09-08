@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import postsServise from "services/postServices";
+import postsServise from "src/services/postServices";
 
 const initialState: homePageState = {
   posts: [],

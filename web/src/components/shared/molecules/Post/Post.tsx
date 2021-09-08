@@ -12,15 +12,15 @@ import {
   Paper,
 } from "@material-ui/core";
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
-import IconButton from "components/atoms/Buttons/IconButton";
+import IconButton from "src/components/shared/atoms/Buttons/IconButton";
 
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutlined";
 
-import postOwnerAvatar from "../../../assets/avatar/2.jpeg";
-import profileAvatar from "../../../assets/avatar/1.jpg";
+import postOwnerAvatar from "../../../../assets/avatar/2.jpeg";
+import profileAvatar from "../../../../assets/avatar/1.jpg";
 import useStyles from './styles'
 
 interface PostProps {

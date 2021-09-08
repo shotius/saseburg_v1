@@ -15,7 +15,7 @@ import {
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 
-import storyAvatar from "../../../assets/avatar/2.jpeg";
+import storyAvatar from "../../../../assets/avatar/2.jpeg";
 import { Button } from "@material-ui/core";
 import useStyles from "./styles";
 const date = new Date();

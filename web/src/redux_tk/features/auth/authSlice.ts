@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from "services/authService";
+import authService from "src/services/authService";
 
 // initial state of auth reducer
 const initialState: authState = {

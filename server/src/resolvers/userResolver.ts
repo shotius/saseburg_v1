@@ -43,6 +43,7 @@ export class UserResolver {
     @Arg('input') input: LoginInput,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
+
     const user = await User.findOne(
       input.usernameOrEmail.includes('@')
         ? { where: { email: input.usernameOrEmail } }
@@ -53,7 +54,7 @@ export class UserResolver {
       return {
         errors: [
           {
-            field: 'usernameOrPassword',
+            field: 'usernameOrEmail',
             message: 'username does not exist',
           },
         ],

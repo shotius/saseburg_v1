@@ -10,17 +10,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
 import moment from "moment";
-import ButtonSubmit from "../../../atoms/Buttons/ButtonSubmit";
-import Alert from "components/molecules/alerts/authError";
+import ButtonSubmit from "../../../shared/atoms/Buttons/ButtonSubmit";
+import Alert from "src/components/shared/molecules/alerts/authError";
 
-import { useAppDispatch, useAppSelector } from "redux_tk/app/hook";
+import { useAppDispatch, useAppSelector } from "src/redux_tk/app/hook";
 import {
   registerUserAsync,
   // toggleError,
   // toggleRegisterSuccess,
-} from "redux_tk/features/auth/authSlice";
+} from "src/redux_tk/features/auth/authSlice";
 import { useEffect } from "react";
-import { toggleRegisterLoading } from "redux_tk/features/auth/authSlice";
+import { toggleRegisterLoading } from "src/redux_tk/features/auth/authSlice";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

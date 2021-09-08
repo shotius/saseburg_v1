@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SM_THEME } from "utils/const/constants";
+import { SM_THEME } from "src/utils/const/constants";
 
 const initialState: displayState = {
   theme: localStorage.getItem(SM_THEME),

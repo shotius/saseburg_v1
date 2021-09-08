@@ -1,4 +1,4 @@
-import { AUTH_TOKEN } from 'utils/const/constants';
+import { AUTH_TOKEN } from 'src/utils/const/constants';
 
 export const useAuth = (): boolean => {
     const token = localStorage.getItem(AUTH_TOKEN)

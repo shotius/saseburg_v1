@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAppSelector } from "redux_tk/app/hook";
+import { useAppSelector } from "src/redux_tk/app/hook";
 
 interface PrivateRouteProps {
   component: React.FC;

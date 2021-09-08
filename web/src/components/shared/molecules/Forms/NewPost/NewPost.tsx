@@ -8,13 +8,13 @@ import {
   Box,
   Paper,
 } from "@material-ui/core";
-import NewPostModal from "components/molecules/Modals/NewPostModal";
-import profileAvatar from "../../../../assets/avatar/1.jpg";
+import NewPostModal from "src/components/shared/molecules/Modals/NewPostModal";
+import profileAvatar from "../../../../../assets/avatar/1.jpg";
 import MovieCreationOutlinedIcon from "@material-ui/icons/MovieCreationOutlined";
 import PanoramaOutlinedIcon from "@material-ui/icons/PanoramaOutlined";
 
-import ListItemAvatarComponent from "components/atoms/ListItemAvatar";
-import IconButton from "components/atoms/Buttons/IconButton";
+import ListItemAvatarComponent from "src/components/shared/atoms/ListItemAvatar";
+import IconButton from "src/components/shared/atoms/Buttons/IconButton";
 import useStyles from "./styles";
 
 const NewPostForm: React.FC = () => {

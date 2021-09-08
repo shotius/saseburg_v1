@@ -12,11 +12,11 @@ import CropSquareIcon from "@material-ui/icons/CropSquare";
 import SearchIcon from "@material-ui/icons/Search";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import { IconButton } from "@material-ui/core";
-import ThemeSwitcher from "components/atoms/Swithes/ThemeSwitcher";
-import { THEME_DARK, THEME_LIGHT } from "utils/const/constants";
+import ThemeSwitcher from "src/components/shared/atoms/Swithes/ThemeSwitcher";
+import { THEME_DARK, THEME_LIGHT } from "src/utils/const/constants";
 import useStyles from "./styles";
-import { useAppDispatch, useAppSelector } from "redux_tk";
-import { changeTheme } from "redux_tk/features/display/displaySlice";
+import { useAppDispatch, useAppSelector } from "src/redux_tk";
+import { changeTheme } from "src/redux_tk/features/display/displaySlice";
 
 export default function Header() {
   const { theme } = useAppSelector((state) => state.dispay);

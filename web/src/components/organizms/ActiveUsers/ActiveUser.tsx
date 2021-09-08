@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Box } from "@material-ui/core";
 import { ListItem } from "@material-ui/core";
-import { ListItemText } from "components/atoms/ListItemText";
+import { ListItemText } from "src/components/shared/atoms/ListItemText";
 import {
   Divider,
   List,

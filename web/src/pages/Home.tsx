@@ -1,7 +1,7 @@
-import ActiveUsers from "components/organizms/ActiveUsers";
+import ActiveUsers from "src/components/organizms/ActiveUsers";
 import React from "react";
-import Sidebar from "../components/molecules/Sidebar";
-import Stories from "../components/molecules/Stories";
+import Sidebar from "../components/shared/molecules/Sidebar";
+import Stories from "../components/shared/molecules/Stories";
 import Header from "../components/organizms/Header";
 import PostsOnHome from "../components/organizms/PostsOnHome";
 import { HomeTemplate } from "../components/templates/HomeTemplate";

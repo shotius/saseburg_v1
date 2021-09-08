@@ -1,5 +1,5 @@
 // import { AUTH_TOKEN } from 'utils/const/constants'
-import { store } from 'redux_tk/app/store'
+import { store } from 'src/redux_tk/app/store'
 import axios from 'axios'
 
 const instance = axios.create({

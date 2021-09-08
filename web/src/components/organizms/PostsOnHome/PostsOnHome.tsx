@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import NewPostForm from "../../molecules/Forms/NewPost";
-import { useAppDispatch, useAppSelector } from "redux_tk/app/hook";
-import PostsLists from "components/molecules/Posts";
+import NewPostForm from "../../shared/molecules/Forms/NewPost";
+import { useAppDispatch, useAppSelector } from "src/redux_tk/app/hook";
+import PostsLists from "src/components/shared/molecules/Posts";
 // import { homeReducers } from "redux_tk/features/posts2/homeThunks";
-import { getAllPosts}  from "redux_tk";
+import { getAllPosts}  from "src/redux_tk";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

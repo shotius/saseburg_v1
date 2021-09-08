@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Alert from "components/atoms/alerts/Alert";
+import Alert from "src/components/shared/atoms/alerts/Alert";
 
 interface Props {
   errors: string[];

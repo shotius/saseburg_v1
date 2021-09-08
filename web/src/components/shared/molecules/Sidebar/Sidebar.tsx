@@ -18,8 +18,8 @@ import PhotoSizeSelectActualOutlinedIcon from "@material-ui/icons/PhotoSizeSelec
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import CardGiftcardRoundedIcon from "@material-ui/icons/CardGiftcardRounded";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
-import profileAvatar from "../../../assets/avatar/1.jpg";
-import { sideWrapperWidth } from "../../../utils/const/wrappers";
+import profileAvatar from "../../../../assets/avatar/1.jpg";
+import { sideWrapperWidth } from "../../../../utils/const/wrappers";
 
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 

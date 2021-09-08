@@ -1,11 +1,14 @@
-import 'reflect-metadata';
-import { User } from './entities/User';
-import { createConnection } from 'typeorm';
-import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
+import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
+import { createConnection } from 'typeorm';
+import { User } from './entities/User';
 import { HelloResolver } from './resolvers/helloResolver';
 import { UserResolver } from './resolvers/userResolver';
+// import session from "express-session"
+// import connectRedis from 'connect-redis';
+// import Redis from 'ioredis';
 
 const main = async () => {
   const conn = await createConnection({
@@ -18,6 +21,10 @@ const main = async () => {
     entities: [User],
   });
 
+  // initialize redis
+  // const RedisStore = connectRedis(session);
+  // const redis = new Redis()
+  
   const app = express();
 
   const apolloServer = new ApolloServer({
@@ -25,6 +32,7 @@ const main = async () => {
       resolvers: [HelloResolver, UserResolver],
       validate: false,
     }),
+    context: ({ req, res }) => ({ req, res }),
   });
   await apolloServer.start();
 

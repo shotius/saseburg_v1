@@ -6,9 +6,16 @@ import { createConnection } from 'typeorm';
 import { User } from './entities/User';
 import { HelloResolver } from './resolvers/helloResolver';
 import { UserResolver } from './resolvers/userResolver';
-// import session from "express-session"
-// import connectRedis from 'connect-redis';
-// import Redis from 'ioredis';
+import Redis from 'ioredis';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+import { __prod__ } from './utils/constants';
+
+declare module 'express-session' {
+  export interface SessionData {
+    userId: number;
+  }
+}
 
 const main = async () => {
   const conn = await createConnection({
@@ -21,11 +28,30 @@ const main = async () => {
     entities: [User],
   });
 
+  const RedisStore = connectRedis(session);
+  const redisClient = new Redis();
+
+  const app = express();
+
   // initialize redis
   // const RedisStore = connectRedis(session);
   // const redis = new Redis()
-  
-  const app = express();
+
+  app.use(
+    session({
+      name: 'qid',
+      store: new RedisStore({ client: redisClient, disableTouch: true }),
+      saveUninitialized: false,
+      secret: 'asdfasdfasdf',
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // one day
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: __prod__
+      },
+      resave: false,
+    })
+  );
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({

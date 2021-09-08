@@ -71,6 +71,9 @@ export class UserResolver {
         ],
       };
     }
+
+    req.session.userId = user.id;
+
     return { user };
   }
 
@@ -92,9 +95,22 @@ export class UserResolver {
     });
 
     try {
-      // await user.save();
+      await user.save();
     } catch (error) {
-      console.log(error);
+      if (error.code === "23505") {
+        return {
+          errors: [
+            {
+              field: "username",
+              message: "username already exists",
+            },
+            {
+              field: "email",
+              message: "email already exist",
+            },
+          ],
+        };
+      }
     }
 
     return { user } as UserResponse;

@@ -77,6 +77,7 @@ let UserResolver = class UserResolver {
                 ],
             };
         }
+        req.session.userId = user.id;
         return { user };
     }
     async register(credentials) {
@@ -91,9 +92,23 @@ let UserResolver = class UserResolver {
             password: hashedPassword,
         });
         try {
+            await user.save();
         }
         catch (error) {
-            console.log(error);
+            if (error.code === "23505") {
+                return {
+                    errors: [
+                        {
+                            field: "username",
+                            message: "username already exists",
+                        },
+                        {
+                            field: "email",
+                            message: "email already exist",
+                        },
+                    ],
+                };
+            }
         }
         return { user };
     }

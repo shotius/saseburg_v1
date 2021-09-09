@@ -1,3 +1,4 @@
+import { IsAuth } from './../utils/isAuth';
 import { MyContext } from './../types';
 import argon2 from 'argon2';
 import {
@@ -9,12 +10,14 @@ import {
   ObjectType,
   Query,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql';
 import { User } from '../entities/User';
 import { registerValidation } from '../validation/registerValidation';
 import { FieldError } from './FieldError';
 import { UsernamePasswordInput } from './UsernamePasswordInput';
 
+// login input
 @InputType()
 class LoginInput {
   @Field()
@@ -23,6 +26,7 @@ class LoginInput {
   password: string;
 }
 
+// user response
 @ObjectType()
 class UserResponse {
   @Field({ nullable: true })
@@ -31,8 +35,18 @@ class UserResponse {
   errors?: FieldError[];
 }
 
+// user resolver
 @Resolver()
 export class UserResolver {
+  @Query(() => User)
+  @UseMiddleware(IsAuth)
+  async me(
+    @Ctx() {req}: MyContext
+  ): Promise<User | undefined>{
+      const user = await User.findOne(req.session.userId);
+      return user;
+  }
+
   @Query(() => [User])
   users(): Promise<User[]> {
     return User.find();

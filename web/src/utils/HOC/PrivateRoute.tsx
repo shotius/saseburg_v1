@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { useAppSelector } from "src/redux_tk/app/hook";
+import { Redirect, Route } from "react-router-dom";
+import { useMeQuery } from "src/generated/graphql";
 
 interface PrivateRouteProps {
   component: React.FC;
@@ -11,13 +11,17 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const loginSuccess = useAppSelector(state => state.auth.loginSuccess);
+  const [{data, fetching}] = useMeQuery()
   
+  if (fetching) {
+    return <div>...loading</div>
+  } 
+
   return (
     <Route
       {...rest}
-      render={(props) => {
-        return loginSuccess ? <Component /> : <Redirect to="/login" />;
+      render={() => {
+        return data ? <Component /> : <Redirect to="/login" />;
       }}
     />
   );

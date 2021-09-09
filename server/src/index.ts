@@ -1,9 +1,11 @@
+import { PostResolvers } from './resolvers/postResolvers';
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { User } from './entities/User';
+import { Post } from './entities/Post';
 import { HelloResolver } from './resolvers/helloResolver';
 import { UserResolver } from './resolvers/userResolver';
 import Redis from 'ioredis';
@@ -26,17 +28,17 @@ const main = async () => {
     password: '1234',
     synchronize: true,
     logging: true,
-    entities: [User],
+    entities: [User, Post],
   });
 
   const RedisStore = connectRedis(session);
   const redisClient = new Redis();
 
   const app = express();
-  
+
   app.use(
     cors({
-      origin: 'http://localhost:3000',
+      origin: ['http://localhost:3000', 'https://studio.apollographql.com'],
       credentials: true,
     })
   );
@@ -59,7 +61,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver],
+      resolvers: [HelloResolver, UserResolver, PostResolvers],
       validate: false,
     }),
     context: ({ req, res }) => ({ req, res }),

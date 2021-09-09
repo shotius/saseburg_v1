@@ -60,32 +60,6 @@ export function SignUpForm() {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  // TO-DO: handle eror disapear
-  useEffect(() => {
-    // if (error) {
-    //   dispatch(toggleError(false));
-    // }
-
-    // user is already signed
-    // dont let him/her enter signup page
-    if (loginSuccess) {
-      history.push("/");
-    }
-
-    // if user is registered redirect to user login page
-    if (registerSuccess) {
-      history.push("/login");
-      dispatch(toggleRegisterLoading(false));
-    }
-  }, [
-    errors,
-    registerLoading,
-    dispatch,
-    history,
-    registerSuccess,
-    loginSuccess,
-  ]);
-
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 

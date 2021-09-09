@@ -16,6 +16,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
+const isAuth_1 = require("./../utils/isAuth");
 const argon2_1 = __importDefault(require("argon2"));
 const type_graphql_1 = require("type-graphql");
 const User_1 = require("../entities/User");
@@ -49,6 +50,10 @@ UserResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], UserResponse);
 let UserResolver = class UserResolver {
+    async me({ req }) {
+        const user = await User_1.User.findOne(req.session.userId);
+        return user;
+    }
     users() {
         return User_1.User.find();
     }
@@ -113,6 +118,14 @@ let UserResolver = class UserResolver {
         return { user };
     }
 };
+__decorate([
+    (0, type_graphql_1.Query)(() => User_1.User),
+    (0, type_graphql_1.UseMiddleware)(isAuth_1.IsAuth),
+    __param(0, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "me", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [User_1.User]),
     __metadata("design:type", Function),

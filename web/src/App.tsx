@@ -1,23 +1,19 @@
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Theme, ThemeProvider } from '@material-ui/core/styles';
 import React, { useMemo } from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Redirect,
-  Route,
+  BrowserRouter as Router, Redirect,
+  Route, Switch
 } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Home from './pages/Home';
-
-import PrivateRoute from './utils/HOC/PrivateRoute';
-import { Login, SignUp } from './pages';
-import { useAppDispatch, useAppSelector } from 'src/redux_tk';
-import { autoLogin } from 'src/redux_tk';
-import { useAuth } from 'src/utils/hooks/useAuth';
-import { Theme, ThemeProvider } from '@material-ui/core/styles';
-// import themeDefault from "./theme";
-import { lightTheme, darkTheme } from 'src/theme';
+import { autoLogin, useAppDispatch, useAppSelector } from 'src/redux_tk';
+import { darkTheme, lightTheme } from 'src/theme';
 import { THEME_DARK } from 'src/utils/const/constants';
 import { createClient, Provider } from 'urql';
+import { Login, SignUp } from './pages';
+import Home from './pages/Home';
+import { AuthRoute } from './utils/HOC/AuthRoute';
+import PrivateRoute from './utils/HOC/PrivateRoute';
+
 
 const client = createClient({
   url: 'http://localhost:4000/graphql',
@@ -30,10 +26,10 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const { theme } = useAppSelector((state) => state.dispay);
 
-  const isAuthenticated = useAuth();
+
 
   // if reload happends authenticate user
-  if (isAuthenticated) {
+  if (true) {
     dispatch(autoLogin());
   }
 
@@ -57,8 +53,8 @@ const App: React.FC = () => {
               <Redirect to="/home" />
             </Route>
             <PrivateRoute component={Home} path="/home" exact />
-            <Route component={Login} path="/login" />
-            <Route component={SignUp} path="/signUp" />
+            <AuthRoute component={Login} path="/login" exact/>
+            <AuthRoute component={SignUp} path="/signUp" exact/>
           </Switch>
         </Router>
       </ThemeProvider>

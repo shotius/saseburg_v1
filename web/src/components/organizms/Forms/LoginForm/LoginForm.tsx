@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
 import React from 'react';
+import { useHistory } from 'react-router';
 import { TextField } from 'src/components/shared/atoms/TextField/TextFieldBordered';
 import { useLoginMutation } from 'src/generated/graphql';
 import { toErrorMap } from 'src/utils/toErrorMap';
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) =>
 
 export function LoginForm() {
   const classes = useStyles();
+  const history = useHistory()
   const [, login] = useLoginMutation();
 
   const formik = useFormik({
@@ -48,7 +50,7 @@ export function LoginForm() {
         const mappedErrors = toErrorMap(result.data?.login.errors)
         setErrors(mappedErrors)
       } else {
-        console.log(result.data?.login.user);
+        history.push('/home');
       }
     },
   });

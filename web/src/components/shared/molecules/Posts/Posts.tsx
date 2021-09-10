@@ -1,15 +1,14 @@
-import React from "react";
-import Post from "../Post";
+import React from 'react';
+import { PostsQuery } from 'src/generated/graphql';
+import PostComponent from '../Post/PostComponent';
 
-interface PostsListsProps {
-  posts: IPost[];
-}
+type PostsListsProps = Pick<PostsQuery, 'posts'>;
 
 const PostsLists: React.FC<PostsListsProps> = ({ posts }) => {
   return (
     <div>
       {posts.map((post) => (
-        <Post post={post} key={post.id} />
+        <PostComponent post={post} key={post.id} />
       ))}
     </div>
   );

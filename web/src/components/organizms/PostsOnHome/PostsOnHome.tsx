@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import NewPostForm from "../../shared/molecules/Forms/NewPost";
-import { useAppDispatch, useAppSelector } from "src/redux_tk/app/hook";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React from "react";
 import PostsLists from "src/components/shared/molecules/Posts";
-// import { homeReducers } from "redux_tk/features/posts2/homeThunks";
-import { getAllPosts}  from "src/redux_tk";
+import { usePostsQuery } from "src/generated/graphql";
+import NewPostForm from "../../shared/molecules/Forms/NewPost";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,17 +18,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Main: React.FC = () => {
   const classes = useStyles();
-  const { posts } = useAppSelector((state) => state.posts);
-  const dispatch = useAppDispatch();
+  // const { posts } = useAppSelector((state) => state.posts);
+  // const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getAllPosts());
-  }, [dispatch]);
+  const [{data}] = usePostsQuery()
 
   return (
     <main className={classes.root}>
       <NewPostForm />
-      <PostsLists posts={posts} />
+      {data && <PostsLists posts={data.posts} />}
     </main>
   );
 };

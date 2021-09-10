@@ -1,33 +1,32 @@
-import React from "react";
 import {
+  Avatar,
+  Button,
+  Divider,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText,
-  Avatar,
   ListItemIcon,
-  Divider,
-  TextareaAutosize,
-  Button,
+  ListItemText,
   Paper,
-} from "@material-ui/core";
-import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
-import IconButton from "src/components/shared/atoms/Buttons/IconButton";
-
-import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutlined";
-
-import postOwnerAvatar from "../../../../assets/avatar/2.jpeg";
-import profileAvatar from "../../../../assets/avatar/1.jpg";
-import useStyles from './styles'
+  TextareaAutosize,
+} from '@material-ui/core';
+import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
+import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
+import React from 'react';
+import IconButton from 'src/components/shared/atoms/Buttons/IconButton';
+import { Post } from 'src/generated/graphql';
+import profileAvatar from '../../../../assets/avatar/1.jpg';
+import postOwnerAvatar from '../../../../assets/avatar/2.jpeg';
+import useStyles from './styles';
 
 interface PostProps {
-  post: IPost;
+  post: Partial<Post>;
 }
 
-const Post: React.FC<PostProps> = (props) => {
+const PostComponent: React.FC<PostProps> = (props) => {
   const classes = useStyles();
 
   return (
@@ -42,7 +41,7 @@ const Post: React.FC<PostProps> = (props) => {
             <MoreHorizOutlinedIcon />
           </IconButton>
         </ListItem>
-        <ListItem>{props.post.content}</ListItem>
+        <ListItem>{props.post.text}</ListItem>
         <Divider />
         <ListItem className={classes.actionsToPost}>
           {/* likes */}
@@ -72,7 +71,10 @@ const Post: React.FC<PostProps> = (props) => {
               <BookmarkBorderOutlinedIcon />
             </IconButton>
           </ListItemIcon>
-          <ListItemText className={classes.savedIcon} secondary={`${0} saved`} />
+          <ListItemText
+            className={classes.savedIcon}
+            secondary={`${0} saved`}
+          />
         </ListItem>
         <Divider />
         {/* comment field */}
@@ -85,12 +87,10 @@ const Post: React.FC<PostProps> = (props) => {
             placeholder="Comment..."
             className={classes.commentField}
           />
-          <Button color="primary">
-            post
-          </Button>
+          <Button color="primary">post</Button>
         </ListItem>
       </List>
     </Paper>
   );
 };
-export default Post;
+export default PostComponent;

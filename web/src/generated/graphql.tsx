@@ -29,8 +29,14 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createPost: Post;
   login: UserResponse;
   register: UserResponse;
+};
+
+
+export type MutationCreatePostArgs = {
+  text: Scalars['String'];
 };
 
 
@@ -43,10 +49,19 @@ export type MutationRegisterArgs = {
   credentials: UsernamePasswordInput;
 };
 
+export type Post = {
+  __typename?: 'Post';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  text: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me: User;
+  posts: Array<Post>;
   users: Array<User>;
 };
 
@@ -71,6 +86,13 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
+export type CreatePostMutationVariables = Exact<{
+  text: Scalars['String'];
+}>;
+
+
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, text: string } };
+
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
@@ -90,12 +112,29 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, username: string } };
 
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, text: string }> };
+
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', username: string, email: string }> };
 
 
+export const CreatePostDocument = gql`
+    mutation CreatePost($text: String!) {
+  createPost(text: $text) {
+    id
+    text
+  }
+}
+    `;
+
+export function useCreatePostMutation() {
+  return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
+};
 export const LoginDocument = gql`
     mutation Login($loginInput: LoginInput!) {
   login(input: $loginInput) {
@@ -142,6 +181,18 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const PostsDocument = gql`
+    query Posts {
+  posts {
+    id
+    text
+  }
+}
+    `;
+
+export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };
 export const UsersDocument = gql`
     query Users {

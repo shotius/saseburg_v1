@@ -1,5 +1,5 @@
 import { Post } from "../entities/Post";
-import { Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver()
 export class PostResolvers {
@@ -7,5 +7,12 @@ export class PostResolvers {
   async posts(): Promise<Post[]>{
     const posts = await Post.find();
     return posts;
+  }
+
+  @Mutation(() => Post)
+  async createPost(
+    @Arg('text') text: string
+  ): Promise<Post>{
+    return Post.create({text}).save();
   }
 }

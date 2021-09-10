@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostResolvers = void 0;
 const Post_1 = require("../entities/Post");
@@ -17,6 +20,9 @@ let PostResolvers = class PostResolvers {
         const posts = await Post_1.Post.find();
         return posts;
     }
+    async createPost(text) {
+        return Post_1.Post.create({ text }).save();
+    }
 };
 __decorate([
     (0, type_graphql_1.Query)(() => [Post_1.Post]),
@@ -24,6 +30,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PostResolvers.prototype, "posts", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Post_1.Post),
+    __param(0, (0, type_graphql_1.Arg)('text')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostResolvers.prototype, "createPost", null);
 PostResolvers = __decorate([
     (0, type_graphql_1.Resolver)()
 ], PostResolvers);

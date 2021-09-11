@@ -1,4 +1,3 @@
-import React from "react";
 import { SignUpForm } from "../components/organizms/Forms/SignUpForm";
 import {SignUpTemplate} from '../components/templates/SignUpTemplate'
 

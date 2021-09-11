@@ -4,8 +4,9 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
-import React from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+import Box from 'src/components/shared/atoms/Box';
 import { TextField } from 'src/components/shared/atoms/TextField/TextFieldBordered';
 import { useLoginMutation } from 'src/generated/graphql';
 import { toErrorMap } from 'src/utils/toErrorMap';
@@ -97,6 +98,9 @@ export function LoginForm() {
             submit
           </ButtonSubmit>
         </form>
+        <Box>
+          if you don't have an account <Link to="/signup">sign up</Link>
+        </Box>
       </div>
     </Container>
   );

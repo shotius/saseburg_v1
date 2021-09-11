@@ -1,26 +1,21 @@
-import React, { FormEvent, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import { FormControl, InputLabel, Select } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
-import { Link, useHistory } from "react-router-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import moment from "moment";
-import ButtonSubmit from "../../../shared/atoms/Buttons/ButtonSubmit";
+import { FormEvent, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Alert from "src/components/shared/molecules/alerts/authError";
-
 import { useAppDispatch, useAppSelector } from "src/redux_tk/app/hook";
 import {
-  registerUserAsync,
-  // toggleError,
-  // toggleRegisterSuccess,
+  registerUserAsync
 } from "src/redux_tk/features/auth/authSlice";
-import { useEffect } from "react";
-import { toggleRegisterLoading } from "src/redux_tk/features/auth/authSlice";
+import ButtonSubmit from "../../../shared/atoms/Buttons/ButtonSubmit";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,26 +50,26 @@ export function SignUpForm() {
   const [isPasswordMatching, setIsPasswordMatching] = useState(true);
   const classes = useStyles();
 
-  const { errors, registerLoading, registerSuccess, loginSuccess } =
+  const { errors } =
     useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  // const onSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
 
-    if (validatePassword()) {
-      const newUser: IUser = {
-        firstName,
-        lastName,
-        email,
-        dateOfBirth,
-        sex: Number(sex),
-        password,
-      };
-      dispatch(registerUserAsync(newUser));
-    }
-  };
+  //   if (validatePassword()) {
+  //     const newUser: IUser = {
+  //       firstName,
+  //       lastName,
+  //       email,
+  //       dateOfBirth,
+  //       sex: Number(sex),
+  //       password,
+  //     };
+  //     dispatch(registerUserAsync(newUser));
+  //   }
+  // };
 
   const validatePassword = () => {
     if (password === confirmPassword) {
@@ -101,8 +96,17 @@ export function SignUpForm() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate onSubmit={onSubmit}>
-            <Grid container spacing={2}>
+          
+        </div>
+      </Container>
+    </>
+  );
+}
+
+{/* <form className={classes.form} noValidate onSubmit={onSubmit}></form> */}
+{/* 
+
+<Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   error={false}
@@ -217,9 +221,4 @@ export function SignUpForm() {
                 <Link to="/login">Already have an account? Sign in</Link>
               </Grid>
             </Grid>
-          </form>
-        </div>
-      </Container>
-    </>
-  );
-}
+          </form> */}

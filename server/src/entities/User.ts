@@ -1,3 +1,4 @@
+import { Sex } from 'src/types';
 import { Field, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
@@ -18,8 +19,21 @@ export class User extends BaseEntity{
   id!: number;
 
   @Field()
-  @Column({unique: true})
-  username!: string;
+  @Column()
+  firstName!:string;
+
+  @Field()
+  @Column()
+  lastName!: string;
+
+  @Field()
+  @Column()
+  sex!: Sex;
+
+  @Field()
+  @Column()
+  birthData!: Date;
+
 
   @Field()
   @Column({unique: true})

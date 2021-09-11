@@ -15,7 +15,7 @@ import {
 import { User } from '../entities/User';
 import { registerValidation } from '../validation/registerValidation';
 import { FieldError } from './FieldError';
-import { UsernamePasswordInput } from './UsernamePasswordInput';
+import { RegisterCredentials } from './RegisterCredentials';
 
 // login input
 @InputType()
@@ -38,26 +38,26 @@ class UserResponse {
 // user resolver
 @Resolver()
 export class UserResolver {
+  // me
   @Query(() => User)
   @UseMiddleware(IsAuth)
-  async me(
-    @Ctx() {req}: MyContext
-  ): Promise<User | undefined>{
-      const user = await User.findOne(req.session.userId);
-      return user;
+  async me(@Ctx() { req }: MyContext): Promise<User | undefined> {
+    const user = await User.findOne(req.session.userId);
+    return user;
   }
 
+  // users
   @Query(() => [User])
   users(): Promise<User[]> {
     return User.find();
   }
 
+  // login
   @Mutation(() => UserResponse)
   async login(
     @Arg('input') input: LoginInput,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-
     const user = await User.findOne(
       input.usernameOrEmail.includes('@')
         ? { where: { email: input.usernameOrEmail } }
@@ -92,9 +92,10 @@ export class UserResolver {
     return { user };
   }
 
+  // register
   @Mutation(() => UserResponse)
   async register(
-    @Arg('credentials') credentials: UsernamePasswordInput
+    @Arg('credentials') credentials: RegisterCredentials
   ): Promise<UserResponse> {
     // validate input
     const errors = registerValidation(credentials);
@@ -103,31 +104,35 @@ export class UserResolver {
     }
 
     const hashedPassword = await argon2.hash(credentials.password);
+
     const user = User.create({
-      username: credentials.username,
       email: credentials.email,
       password: hashedPassword,
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
+      sex: credentials.sex,
+      birthData: credentials.birthDate,
     });
 
     try {
       await user.save();
     } catch (error) {
-      if (error.code === "23505") {
+      if (error.code === '23505') {
         return {
           errors: [
             {
-              field: "username",
-              message: "username already exists",
+              field: 'username',
+              message: 'username already exists',
             },
             {
-              field: "email",
-              message: "email already exist",
+              field: 'email',
+              message: 'email already exist',
             },
           ],
         };
       }
     }
 
-    return { user } as UserResponse;
+    return { user };
   }
 }

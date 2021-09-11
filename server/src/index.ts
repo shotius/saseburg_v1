@@ -31,6 +31,7 @@ const main = async () => {
     entities: [User, Post],
   });
 
+  // await User.delete({});
   // await Post.delete({});
 
   const RedisStore = connectRedis(session);

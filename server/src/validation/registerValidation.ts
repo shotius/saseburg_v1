@@ -1,17 +1,9 @@
 import { FieldError } from 'src/resolvers/FieldError';
-import { UsernamePasswordInput } from 'src/resolvers/UsernamePasswordInput';
+import { RegisterCredentials } from 'src/resolvers/RegisterCredentials';
 
 export const registerValidation = (
-  credentials: UsernamePasswordInput
+  credentials: RegisterCredentials
 ): [FieldError] | null => {
-  if (credentials.username.length < 3) {
-    return [
-      {
-        field: 'username',
-        message: 'username must be longer then 3 character',
-      },
-    ];
-  }
   if (credentials.password.length < 4) {
     return [
       {

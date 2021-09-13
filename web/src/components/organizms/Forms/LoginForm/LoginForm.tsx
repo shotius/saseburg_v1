@@ -39,7 +39,7 @@ export function LoginForm() {
 
   const formik = useFormik({
     initialValues: {
-      usernameOrEmail: '',
+      email: '',
       password: '',
     },
     onSubmit: async (values, { setErrors }) => {
@@ -68,18 +68,18 @@ export function LoginForm() {
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <TextField
-            id="usernameOrEmail"
-            name="usernameOrEmail"
+            id="email"
+            name="email"
             label="Email Address"
             variant="outlined"
             margin="normal"
             autoComplete="email"
             autoFocus
             type="text"
-            value={formik.values.usernameOrEmail}
+            value={formik.values.email}
             onChange={formik.handleChange}
-            error={formik.touched.usernameOrEmail && Boolean(formik.errors.usernameOrEmail)}
-            helperText={formik.touched.usernameOrEmail && formik.errors.usernameOrEmail}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             id="password"

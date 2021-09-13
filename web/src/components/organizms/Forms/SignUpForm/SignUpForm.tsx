@@ -1,92 +1,41 @@
-import { FormControl, InputLabel, Select } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import moment from "moment";
-import { FormEvent, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import Alert from "src/components/shared/molecules/alerts/authError";
-import { useAppDispatch, useAppSelector } from "src/redux_tk/app/hook";
-import {
-  registerUserAsync
-} from "src/redux_tk/features/auth/authSlice";
-import ButtonSubmit from "../../../shared/atoms/Buttons/ButtonSubmit";
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+import Box from 'src/components/shared/atoms/Box';
+import { Button } from 'src/components/shared/atoms/Button';
+import FormikInputField from 'src/components/shared/molecules/FormikInputField/FormikInputField';
+import { useRegisterMutation } from 'src/generated/graphql';
+import { toErrorMap } from 'src/utils/toErrorMap';
+import { useHistory } from 'react-router';
+import useStyles from './styles'
+import * as Yup from "yup"
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+const SignupSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  lastName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+});
 
 export function SignUpForm() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [sex, setSex] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(
-    moment(new Date()).format("YYYY-MM-DD")
-  );
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isPasswordMatching, setIsPasswordMatching] = useState(true);
   const classes = useStyles();
-
-  const { errors } =
-    useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
   const history = useHistory();
-
-  // const onSubmit = async (e: FormEvent) => {
-  //   e.preventDefault();
-
-  //   if (validatePassword()) {
-  //     const newUser: IUser = {
-  //       firstName,
-  //       lastName,
-  //       email,
-  //       dateOfBirth,
-  //       sex: Number(sex),
-  //       password,
-  //     };
-  //     dispatch(registerUserAsync(newUser));
-  //   }
-  // };
-
-  const validatePassword = () => {
-    if (password === confirmPassword) {
-      setIsPasswordMatching(true);
-      return true;
-    } else {
-      setIsPasswordMatching(false);
-      return false;
-    }
-  };
+  const [, register] = useRegisterMutation();
 
   return (
     <>
-      {/* {registerSuccess && <Alert message="You signed up successfuly" severity="success"/>} */}
-      {/* {true  && <Alert message="message" severity="error"/>} */}
-      {errors && <Alert errors={errors} />}
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -96,129 +45,107 @@ export function SignUpForm() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          
+          <Formik
+            initialValues={{
+              lastName: '',
+              firstName: '',
+              sex: '',
+              birthDate: moment(new Date()).format('YYYY-MM-DD'),
+              email: '',
+              password: '',
+              confirmPassword: '',
+            }}
+            onSubmit={async (values, { setErrors }) => {
+              const { confirmPassword, ...registerCredentials } = values;
+              const response = await register({ registerCredentials });
+              
+              if (response.data?.register.errors) {
+                const mappedErrors = toErrorMap(
+                  response.data.register.errors
+                  );
+                  setErrors(mappedErrors);
+                } else {
+                  history.push('/login');
+                }
+              }}
+              validate={(values) => {
+                const errors: Record<string, string> = {}
+                if (values.password !== values.confirmPassword){
+                  errors.confirmPassword = "password don't match"
+                }
+                return errors
+              }}
+              validationSchema={SignupSchema}
+              >
+            {({errors, touched, ...props}) => (
+              <Form>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <FormikInputField name="firstName" label="First Name" />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormikInputField name="lastName" label="Last Name" />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth required>
+                      <InputLabel htmlFor="sex">Sex</InputLabel>
+                      <Select
+                        value={props.values.sex}
+                        onChange={props.handleChange}
+                        placeholder="Sex"
+                        name="sex"
+                        label="sex"
+                        id="sex"
+                      >
+                        <MenuItem value={'male'}>Male</MenuItem>
+                        <MenuItem value={'female'}>Female</MenuItem>
+                        <MenuItem value={'other'}>Other</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormikInputField
+                      required
+                      name="birthDate"
+                      label="Birth Date"
+                      type="date"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormikInputField name="email" label="Email" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormikInputField
+                      name="password"
+                      label="Password"
+                      type="password"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormikInputField
+                      name="confirmPassword"
+                      label="Confirm Password"
+                      type="password"
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  fullWidth
+                >
+                  Sign up
+                </Button>
+                <Box textAlign="center">
+                  Already have an account?<Link to="/login">Sign in</Link>
+                </Box>
+              </Form>
+            )}
+          </Formik>
         </div>
       </Container>
     </>
   );
 }
-
-{/* <form className={classes.form} noValidate onSubmit={onSubmit}></form> */}
-{/* 
-
-<Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  error={false}
-                  autoComplete="firstName"
-                  name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lastName"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl required variant="outlined" fullWidth>
-                  <InputLabel htmlFor="sex">Sex</InputLabel>
-                  <Select
-                    required
-                    native
-                    value={sex}
-                    onChange={(e: any) => setSex(e.target.value)}
-                    name="sex"
-                    label="sex"
-                    inputProps={{
-                      id: "sex",
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    <option value={1}>Male</option>
-                    <option value={2}>Female</option>
-                    <option value={3}>Other</option>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  name="date"
-                  id="date"
-                  label="Date"
-                  type="date"
-                  InputLabelProps={{ shrink: true }}
-                  value={dateOfBirth}
-                  onChange={(e) => setDateOfBirth(e.target.value)}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  type="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="none"
-                  error={!isPasswordMatching}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirm-password"
-                  autoComplete="none"
-                  error={!isPasswordMatching}
-                />
-              </Grid>
-            </Grid>
-            <ButtonSubmit color="primary">Sign Up</ButtonSubmit>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Link to="/login">Already have an account? Sign in</Link>
-              </Grid>
-            </Grid>
-          </form> */}

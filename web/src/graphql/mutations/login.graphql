@@ -2,13 +2,10 @@
 mutation Login($loginInput: LoginInput!) {
   login(input: $loginInput) {
     user {
-      username
-      email
-      id
+      ...GeneralUser
     }
     errors {
-      field
-      message
+      ...GeneralFieldError
     }
   }
 }

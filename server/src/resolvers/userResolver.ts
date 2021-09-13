@@ -21,7 +21,7 @@ import { RegisterCredentials } from './RegisterCredentials';
 @InputType()
 class LoginInput {
   @Field()
-  usernameOrEmail: string;
+  email: string;
   @Field()
   password: string;
 }
@@ -58,17 +58,13 @@ export class UserResolver {
     @Arg('input') input: LoginInput,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const user = await User.findOne(
-      input.usernameOrEmail.includes('@')
-        ? { where: { email: input.usernameOrEmail } }
-        : { where: { username: input.usernameOrEmail } }
-    );
+    const user = await User.findOne({ where: { email: input.email } });
 
     if (!user) {
       return {
         errors: [
           {
-            field: 'usernameOrEmail',
+            field: 'email',
             message: 'username does not exist',
           },
         ],
@@ -120,10 +116,6 @@ export class UserResolver {
       if (error.code === '23505') {
         return {
           errors: [
-            {
-              field: 'username',
-              message: 'username already exists',
-            },
             {
               field: 'email',
               message: 'email already exist',

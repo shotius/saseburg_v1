@@ -1,11 +1,13 @@
-
-mutation Register($registerCredentials: UsernamePasswordInput!) {
+mutation Register($registerCredentials: RegisterCredentials!) {
   register(credentials: $registerCredentials) {
     user {
-      username
+     	firstName
+      lastName
       email
-      createdAt
-      updatedAt
+    }
+    errors {
+      field
+      message
     }
   }
 }

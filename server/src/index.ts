@@ -13,6 +13,8 @@ import session from 'express-session';
 import connectRedis from 'connect-redis';
 import { __prod__ } from './utils/constants';
 import cors from 'cors';
+import { Comment } from './entities/Comment';
+import { CommentResolver } from './resolvers/commentResolver';
 
 declare module 'express-session' {
   export interface SessionData {
@@ -28,7 +30,7 @@ const main = async () => {
     password: '1234',
     synchronize: true,
     logging: true,
-    entities: [User, Post],
+    entities: [User, Post, Comment],
   });
 
   // await User.delete({});
@@ -64,7 +66,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver, PostResolvers],
+      resolvers: [HelloResolver, UserResolver, PostResolvers, CommentResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({ req, res }),

@@ -1,11 +1,10 @@
-import { Sex } from 'src/types';
 import { Field, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,37 +12,30 @@ import { Post } from './Post';
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Comment extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Field()
   @Column()
-  firstName!: string;
+  content!: string;
 
   @Field()
   @Column()
-  lastName!: string;
+  creatorId!: number;
 
   @Field()
   @Column()
-  sex!: Sex;
+  postId!: number;
 
-  @Field()
-  @Column()
-  birthData!: Date;
+  // @Field(() => Post)
+  @ManyToOne(() => Post, (post) => post.comments)
+  post: Post;
 
-  @Field()
-  @Column({ unique: true })
-  email!: string;
-
-  @Column()
-  password!: string;
-
-  // @Field(() => [Post], { nullable: true })
-  @OneToMany(() => Post, (post) => post.creatorId)
-  posts: Post[];
+  // @Field()
+  // @ManyToOne(() => Comment, comments => comments.comments)
+  // comments!: Comment;
 
   @Field()
   @CreateDateColumn()

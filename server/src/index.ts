@@ -35,6 +35,7 @@ const main = async () => {
 
   // await User.delete({});
   // await Post.delete({});
+  // await Comment.delete({});
 
   const RedisStore = connectRedis(session);
   const redisClient = new Redis();

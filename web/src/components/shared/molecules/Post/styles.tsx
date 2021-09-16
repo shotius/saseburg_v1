@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
         color: theme.palette.text.primary
       }
     },
+    commentForm: {
+      width: "100%",
+      display: 'flex',
+    },
     savedIcon: {
       [theme.breakpoints.between('md', "md")]: {
         display: "none"

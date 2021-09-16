@@ -9,6 +9,7 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql';
+import { User } from '../entities/User';
 
 @Resolver()
 export class PostResolvers {
@@ -21,20 +22,29 @@ export class PostResolvers {
   @Mutation(() => Post)
   @UseMiddleware(IsAuth)
   async createPost(@Arg('text') text: string, @Ctx() { req }: MyContext) {
-    return Post.create({ text, creatorId: Number(req.session.userId) }).save();
+    const post = Post.create({ text, creatorId: Number(req.session.userId) });
+    const user = await User.findOne({ where: { id: req.session.userId } });
+    if (user){
+      post.user = user;
+      user.posts = [post];
+      await user.save();
+      console.log(user);
+      await post.save();
+    }
+    return post;
   }
 
   @Mutation(() => Boolean)
   @UseMiddleware(IsAuth)
   async deletePost(
-    @Arg("id") id: number,
-    @Ctx() {req} : MyContext
-  ): Promise<boolean>{
+    @Arg('id') id: number,
+    @Ctx() { req }: MyContext
+  ): Promise<boolean> {
     const post = await Post.findOne(id);
     if (!post) {
-      throw new Error ('post already deleted');
+      throw new Error('post already deleted');
     }
-    if (req.session.userId === post?.creatorId){
+    if (req.session.userId === post?.creatorId) {
       await Post.delete(id);
       return true;
     } else {

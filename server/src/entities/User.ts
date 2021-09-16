@@ -41,8 +41,8 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
-  // @Field(() => [Post], { nullable: true })
-  @OneToMany(() => Post, (post) => post.creatorId)
+  @Field(() => [Post], { nullable: true, defaultValue: [] })
+  @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
   @Field()

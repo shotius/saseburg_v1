@@ -19,10 +19,11 @@ export class Post extends BaseEntity{
   @Column()
   creatorId!: number; 
 
+  @Field(() => User, {nullable: true})
   @ManyToOne(() => User, user => user.posts)
-  creator!: User;
+  user!: User;
 
-  // @Field(() => [Comment], {nullable: true})
+  @Field(() => [Comment], {nullable: true})
   @OneToMany(() => Comment, comment => comment.post)
   comments: Comment[];
 

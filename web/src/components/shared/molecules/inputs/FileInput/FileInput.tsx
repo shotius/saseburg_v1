@@ -1,41 +1,50 @@
-import React from "react";
-import { Button} from "@material-ui/core";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import PanoramaOutlinedIcon from '@material-ui/icons/PanoramaOutlined'; 
-import { useField, useFormikContext } from "formik";
+import { Button } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import PanoramaOutlinedIcon from '@material-ui/icons/PanoramaOutlined';
+import { useFormikContext } from 'formik';
+import React from 'react';
 
 type FileInputProps = {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  name: string
+  name: string;
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  panoroma: {
-    color: theme.palette.text.secondary
-  }
-}))
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    panoroma: {
+      color: theme.palette.text.secondary,
+    },
+    fileInput: {
+      display: "none"
+    }
+  })
+);
 
-const FileInput: React.FC<FileInputProps> = ({name, ...props}) => {
-  const classes = useStyles()
-  const [field] = useField({name})
-  const {setFieldValue} = useFormikContext()
+const FileInput: React.FC<FileInputProps> = ({ name }) => {
+  const classes = useStyles();
+  const { setFieldValue,  } = useFormikContext();
 
   return (
     <>
       <input
-        {...field}
-        accept="image/*"
-        style={{ display: "none" }}
-        id="raised-button-file"
+        name={name}
         multiple
+        accept="image/*"
+        id="file-up"
+        className={classes.fileInput}
         type="file"
+        // value={}
         onChange={(e) => {
-          // setFieldValue(name, e.target.files)
+          // const files = e.target.files;
+          // console.log(files)
+          // let myFiles = Array.from(files);
+          // const files
+          // setFieldValue('images', myFiles);
+          setFieldValue(name, e.target.files)
         }}
       />
-      <label htmlFor="raised-button-file">
+      <label htmlFor="file-up">
         <Button component="span">
-          <PanoramaOutlinedIcon className={classes.panoroma} fontSize="large"/>
+          <PanoramaOutlinedIcon className={classes.panoroma} fontSize="large" />
         </Button>
       </label>
     </>

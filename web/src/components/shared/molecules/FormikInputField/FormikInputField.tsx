@@ -14,7 +14,7 @@ const FormikInputField: React.FC<InputFieldProps & TextFieldProps> = ({
   ...props
 }) => {
   const [field, { error, touched }] = useField({name});
-  
+
   return (
     <TextField
       {...field}

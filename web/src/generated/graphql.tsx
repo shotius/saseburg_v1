@@ -16,6 +16,16 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  creatorId: Scalars['Float'];
+  id: Scalars['Float'];
+  postId: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -29,10 +39,18 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createComment: Comment;
   createPost: Post;
+  deleteComment: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
   login: UserResponse;
   register: UserResponse;
+  updateComment: Comment;
+};
+
+
+export type MutationCreateCommentArgs = {
+  input: CreatePostInput;
 };
 
 
@@ -66,10 +84,17 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
+  comment: Comment;
+  comments: Array<Comment>;
   hello: Scalars['String'];
   me: User;
   posts: Array<Post>;
   users: Array<User>;
+};
+
+
+export type QueryCommentsArgs = {
+  postId: Scalars['Float'];
 };
 
 export type RegisterCredentials = {
@@ -89,7 +114,6 @@ export type User = {
   firstName: Scalars['String'];
   id: Scalars['Float'];
   lastName: Scalars['String'];
-  posts?: Maybe<Array<Post>>;
   sex: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
@@ -100,9 +124,21 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type CreatePostInput = {
+  content: Scalars['String'];
+  postId: Scalars['Float'];
+};
+
 export type GeneralFieldErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type GeneralUserFragment = { __typename?: 'User', id: number, firstName: string, email: string };
+
+export type CreateCommentMutationVariables = Exact<{
+  input: CreatePostInput;
+}>;
+
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', content: string, creatorId: number, postId: number } };
 
 export type CreatePostMutationVariables = Exact<{
   text: Scalars['String'];
@@ -124,6 +160,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', firstName: string, lastName: string, email: string }>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
+
+export type CommentsQueryVariables = Exact<{
+  postId: Scalars['Float'];
+}>;
+
+
+export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', content: string, postId: number, creatorId: number }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -153,6 +196,19 @@ export const GeneralUserFragmentDoc = gql`
   email
 }
     `;
+export const CreateCommentDocument = gql`
+    mutation CreateComment($input: createPostInput!) {
+  createComment(input: $input) {
+    content
+    creatorId
+    postId
+  }
+}
+    `;
+
+export function useCreateCommentMutation() {
+  return Urql.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument);
+};
 export const CreatePostDocument = gql`
     mutation CreatePost($text: String!) {
   createPost(text: $text) {
@@ -200,6 +256,19 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const CommentsDocument = gql`
+    query Comments($postId: Float!) {
+  comments(postId: $postId) {
+    content
+    postId
+    creatorId
+  }
+}
+    `;
+
+export function useCommentsQuery(options: Omit<Urql.UseQueryArgs<CommentsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CommentsQuery>({ query: CommentsDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

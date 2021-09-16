@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
 import { Divider } from '@material-ui/core';
-import { TextAreaAutoSize } from 'src/components/shared/atoms/TextAreaAutoSize';
-import Box from 'src/components/shared/atoms/Box';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import Modal from '@material-ui/core/Modal';
 // import InsertDriveFileOutlinedIcon from "@material-ui/icons/InsertDriveFileOutlined";
 // import MovieCreationOutlinedIcon from "@material-ui/icons/MovieCreationOutlined";
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
-import FileInput from '../../inputs/FileInput';
-
-import Fade from '@material-ui/core/Fade';
-import ButtonSubmit from '../../../atoms/Buttons/ButtonSubmit';
 import SentimentVerySatisfiedOutlinedIcon from '@material-ui/icons/SentimentVerySatisfiedOutlined';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import Box from 'src/components/shared/atoms/Box';
 import IconButton from 'src/components/shared/atoms/Buttons/IconButton';
+import { TextAreaAutoSize } from 'src/components/shared/atoms/TextAreaAutoSize';
 import { Typography } from 'src/components/shared/atoms/Typography';
-
-import useStyles from './style';
 import { useCreatePostMutation } from 'src/generated/graphql';
-import { Form, Formik, FormikErrors, useFormik } from 'formik';
-// import axios from "utils/axios";
-
-type ImageProps = FileList | null;
+import ButtonSubmit from '../../../atoms/Buttons/ButtonSubmit';
+import FileInput from '../../inputs/FileInput';
+import useStyles from './style';
 
 const NewPostModal: React.FC = (props) => {
   const classes = useStyles();
@@ -28,12 +23,6 @@ const NewPostModal: React.FC = (props) => {
   const [, createPost] = useCreatePostMutation();
 
   const handleClose = () => setOpen(false);
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    //@ts-ignore
-    setImages(e.target.files);
-  };
 
   // handle create new postonChange
   // const handleNewPost = async (e: React.FormEvent) => {
@@ -74,8 +63,9 @@ const NewPostModal: React.FC = (props) => {
             </Box>
             <Divider />
             <Formik
-              initialValues={{ text: '', images: [] }}
+              initialValues={{ text: '', images: '' }}
               onSubmit={async (values) => {
+                console.log(values.images)
                 await createPost({ text: values.text });
                 handleClose();
               }}
@@ -83,8 +73,8 @@ const NewPostModal: React.FC = (props) => {
               {(props) => (
                 <Form>
                   <TextAreaAutoSize
-                  required
-                  name="text"
+                    required
+                    name="text"
                     autoFocus
                     minRows={5}
                     onChange={props.handleChange}
@@ -93,7 +83,8 @@ const NewPostModal: React.FC = (props) => {
                   />
                   <div>{props.values.images && <h1>show Images</h1>}</div>
                   <Box className={classes.extras}>
-                    <FileInput handleChange={handleImageChange} name="images" />
+                    <FileInput name="images" />
+                    
                     <IconButton>
                       <SentimentVerySatisfiedOutlinedIcon
                         fontSize="large"

@@ -49,7 +49,7 @@ export class UserResolver {
   // users
   @Query(() => [User])
   users(): Promise<User[]> {
-    return User.find();
+    return User.find({relations: ['posts']});
   }
 
   // login

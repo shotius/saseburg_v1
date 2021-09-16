@@ -42,7 +42,7 @@ export class User extends BaseEntity {
   password!: string;
 
   @Field(() => [Post], { nullable: true, defaultValue: [] })
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, (post) => post.creator)
   posts: Post[];
 
   @Field()

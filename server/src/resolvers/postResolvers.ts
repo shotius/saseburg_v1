@@ -15,20 +15,17 @@ import { User } from '../entities/User';
 export class PostResolvers {
   @Query(() => [Post])
   async posts(): Promise<Post[]> {
-    const posts = await Post.find();
+    const posts = await Post.find({relations: ["creator", "comments"]});
     return posts;
   }
 
   @Mutation(() => Post)
   @UseMiddleware(IsAuth)
   async createPost(@Arg('text') text: string, @Ctx() { req }: MyContext) {
-    const post = Post.create({ text, creatorId: Number(req.session.userId) });
+    const post = Post.create({ text });
     const user = await User.findOne({ where: { id: req.session.userId } });
     if (user){
-      post.user = user;
-      user.posts = [post];
-      await user.save();
-      console.log(user);
+      post.creator = user;
       await post.save();
     }
     return post;
@@ -44,7 +41,7 @@ export class PostResolvers {
     if (!post) {
       throw new Error('post already deleted');
     }
-    if (req.session.userId === post?.creatorId) {
+    if (req.session.userId === post.creator.id) {
       await Post.delete(id);
       return true;
     } else {

@@ -15,13 +15,13 @@ export class Post extends BaseEntity{
   @Column()
   text!:string;
 
-  @Field()
-  @Column()
-  creatorId!: number; 
+  // @Field()
+  // @Column()
+  // creatorId!: number; 
 
   @Field(() => User, {nullable: true})
   @ManyToOne(() => User, user => user.posts)
-  user!: User;
+  creator!: User;
 
   @Field(() => [Comment], {nullable: true})
   @OneToMany(() => Comment, comment => comment.post)

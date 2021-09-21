@@ -10,12 +10,14 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 import { User } from '../entities/User';
+import { getRepository } from 'typeorm';
 
 @Resolver()
 export class PostResolvers {
   @Query(() => [Post])
   async posts(): Promise<Post[]> {
     const posts = await Post.find({relations: ["creator", "comments"]});
+    // posts.comments = 
     return posts;
   }
 
@@ -24,7 +26,7 @@ export class PostResolvers {
   async createPost(@Arg('text') text: string, @Ctx() { req }: MyContext) {
     const post = Post.create({ text });
     const user = await User.findOne({ where: { id: req.session.userId } });
-    if (user){
+    if (user) {
       post.creator = user;
       await post.save();
     }

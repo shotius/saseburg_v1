@@ -1,6 +1,13 @@
-query Posts{
+query Posts {
   posts {
     id
     text
+    creator {
+      ...GeneralUser
+    }
+    comments {
+      content
+      creatorId
+    }
   }
 }

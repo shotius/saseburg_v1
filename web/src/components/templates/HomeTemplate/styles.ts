@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "260px",
     },
     posts: {
+      maxWidth: "600px",
       paddingTop: theme.spacing(3),
       padding: theme.spacing(1),
     },

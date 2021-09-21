@@ -7,7 +7,7 @@ import {
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
-  Paper,
+  Paper
 } from '@material-ui/core';
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
@@ -17,23 +17,20 @@ import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import IconButton from 'src/components/shared/atoms/Buttons/IconButton';
-import { Post, useCommentsQuery, useCreateCommentMutation } from 'src/generated/graphql';
+import { PostsQuery, useCreateCommentMutation } from 'src/generated/graphql';
 import profileAvatar from '../../../../assets/avatar/1.jpg';
 import postOwnerAvatar from '../../../../assets/avatar/2.jpeg';
+import PostComments from '../../comments/postComments/PostComments';
 import { FormikTextField } from '../FormikTextField';
 import useStyles from './styles';
 
 interface PostProps {
-  post: Partial<Post>;
+  post: PostsQuery["posts"][0];
 }
 
 const PostComponent: React.FC<PostProps> = ({ post }) => {
   const classes = useStyles();
   const [, createComment] = useCreateCommentMutation();
-  const [{data: comments}] = useCommentsQuery({variables: {postId: Number(post.id)}})
-  if (comments) {
-    console.log(comments)
-  }
 
   return (
     <Paper className={classes.root} elevation={0}>
@@ -84,6 +81,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         </ListItem>
         <Divider />
         {/* comment field */}
+        <PostComments comments={post.comments}/>
         <ListItem>
           <ListItemAvatar>
             <Avatar alt="profile avatar" src={profileAvatar} />

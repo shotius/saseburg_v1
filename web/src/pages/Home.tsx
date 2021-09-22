@@ -1,5 +1,5 @@
 import React from 'react'
-import { HomeTemplate } from 'src/assets/components/templates/HomeTemplate/HomeTemplate';
+import { HomeTemplate } from 'src/components/templates/HomeTemplate';
 
 interface HomeProps {
 

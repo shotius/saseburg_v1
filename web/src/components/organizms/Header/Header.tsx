@@ -6,9 +6,9 @@ interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = () => {
   return (
-    <Box bg="tomato" p={4} zIndex="overlay">
+    <Box p={4} zIndex="modal">
       <Container maxW="1560px" variant="full">
-        Header
+        
       </Container>
     </Box>
   );

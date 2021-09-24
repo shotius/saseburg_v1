@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
+import { PageLoadSpinner } from "src/components/molecules/PageLoadSpinner/PageLoadSpinner";
 import { useMeQuery } from "src/generated/graphql";
 
 interface PrivateRouteProps {
@@ -14,7 +15,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const [{data, fetching}] = useMeQuery()
   
   if (fetching) {
-    return <div>...loading</div>
+    return <PageLoadSpinner />
   } 
 
   return (

@@ -1,8 +1,9 @@
 import React from "react";
-import { LoginForm } from "../components/organizms/Forms/LoginForm";
-import sideImg from "../assets/images/soc-media1.png";
-import { LogInTemplate } from "../components/templates/LogInTemplate/LoginTemplate";
+import { LoginTemplate } from "src/components/templates/LoginTemplate/LoginTemplate";
 
-export const Login: React.FC = () => (
-  <LogInTemplate loginForm={<LoginForm />} image={sideImg} />
+
+const Login: React.FC = () => (
+  <LoginTemplate />
 );
+
+export default Login

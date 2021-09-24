@@ -1,83 +1,168 @@
-import React from "react";
-import {
-  Typography,
-  AppBar,
-  Toolbar,
-  Box,
-  InputAdornment,
-  OutlinedInput,
-  Hidden,
-} from "@material-ui/core";
-import CropSquareIcon from "@material-ui/icons/CropSquare";
-import SearchIcon from "@material-ui/icons/Search";
-import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
-import { IconButton } from "@material-ui/core";
-import ThemeSwitcher from "src/components/shared/atoms/Swithes/ThemeSwitcher";
-import { THEME_DARK, THEME_LIGHT } from "src/utils/const/constants";
-import useStyles from "./styles";
-import { useAppDispatch, useAppSelector } from "src/redux_tk";
-import { changeTheme } from "src/redux_tk/features/display/displaySlice";
+import { Button } from '@chakra-ui/button';
+import Icon from '@chakra-ui/icon';
+import { InputGroup, InputRightElement } from '@chakra-ui/input';
+import { Box, Divider, HStack, Text } from '@chakra-ui/layout';
+import { Avatar, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { BsApp, BsFillQuestionCircleFill, BsSearch } from 'react-icons/bs';
+import { FaBell, FaFacebookMessenger } from 'react-icons/fa';
+import { GoTriangleDown } from 'react-icons/go';
+import { MdPersonAdd } from 'react-icons/md';
+import { InputField } from 'src/components/molecules/InputField';
+import { Container } from '../../atoms/Container';
 
-export default function Header() {
-  const { theme } = useAppSelector((state) => state.dispay);
-  const dispatch = useAppDispatch()
+interface HeaderProps {}
 
-  const classes = useStyles();
-
-  const handleThemeSwitch = () => {
-    if (theme === THEME_DARK) {
-      dispatch(changeTheme(THEME_LIGHT))
-    } else {
-      dispatch(changeTheme(THEME_DARK))
-    }
-  };
-
+export const Header: React.FC<HeaderProps> = () => {
   return (
-    <AppBar color="default" position="fixed" className={classes.appBar}>
-      <Toolbar disableGutters={true} className={classes.toolbar}>
-        <Box className={classes.wrapper}>
-          <Box className={classes.logoWrapper}>
-            <Box color="mainBlue.main">
-              <CropSquareIcon fontSize="large" />
-            </Box>
-            <Typography variant="h5" style={{ paddingTop: "2px" }}>
-              Saseburg
-            </Typography>
-          </Box>
-          {/* search */}
-          <Hidden smDown>
-            <Box className={classes.searchBox}>
-              <OutlinedInput
-                inputProps={{
-                  style: {
-                    padding: 10,
-                  },
+    <Box p={4} zIndex="modal" bg="white"  position="sticky" top="0">
+      <Container maxW="1560px" variant="full">
+        <HStack justifyContent="space-between" alignItems="center">
+          {/* logo */}
+          <HStack mr="20">
+            <Icon as={BsApp} boxSize="10" color="#53a2ce" />
+            <Text>Sasesurg</Text>
+          </HStack>
+          {/* input */}
+          <HStack flex={{ base: '0', md: '1' }}>
+            <HStack display={{ base: 'none', sm: 'flex' }}>
+              <Formik
+                initialValues={{ search: '' }}
+                onSubmit={(values) => {
+                  console.log(values);
                 }}
-                placeholder="Search"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-                className={classes.input}
+              >
+                {() => (
+                  <Form>
+                    <InputGroup>
+                      <InputField
+                        mt="-2"
+                        h="10"
+                        name="search"
+                        placeholder="Search"
+                        w={['2xxs', '2xxs', 'xs', 'xs', 'md']}
+                        bg="#f6f8fa"
+                        border="1px"
+                        borderColor="lightgray"
+                        focusBorderColor="red"
+                        borderRadius="4px"
+                      />
+                      <InputRightElement>
+                        <Button
+                          type="submit"
+                          h="2.35rem"
+                          size="sm"
+                          bg="#f6f8fa"
+                          borderLeftRadius="none"
+                          aria-label="search button"
+                        >
+                          <Icon as={BsSearch}></Icon>
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                  </Form>
+                )}
+              </Formik>
+            </HStack>
+            {/* humburer menu */}
+            <HStack display={{ md: 'none' }}>
+              <Menu>
+                <MenuButton as={Button}>
+                  <Icon as={AiOutlineMenu} />
+                </MenuButton>
+                <MenuList zIndex="modal">
+                  <MenuItem>Download</MenuItem>
+                  <MenuItem>Create a Copy</MenuItem>
+                  <MenuItem>Mark as Draft</MenuItem>
+                  <MenuItem>Delete</MenuItem>
+                  <MenuItem>Attend a Workshop</MenuItem>
+                </MenuList>
+              </Menu>
+            </HStack>
+          </HStack>
+          <HStack display={{ base: 'none', md: 'flex' }}>
+            {/* avatar */}
+            <HStack display={{ base: 'none', lg: 'flex' }} mx="4" spacing={4}>
+              <Avatar
+                name="Code Beast"
+                src="https://bit.ly/code-beast"
+                h="10"
+                w="10"
               />
-            </Box>
-          </Hidden>
-          {/* theme swithcer */}
-          <Box className={classes.buttonGroup}>
-            <Box color="primary">
-              {theme}
-            </Box>
-            <ThemeSwitcher
-              checked={theme === THEME_DARK ? true : false}
-              onChange={handleThemeSwitch}
-            />
-            <IconButton>
-              <PersonAddOutlinedIcon />
-            </IconButton>
-          </Box>
-        </Box>
-      </Toolbar>
-    </AppBar>
+              <HStack display={{ base: 'none', xl: 'flex' }}>
+                <Text>Code Beaster</Text>
+                <Divider orientation="vertical" h="40px" />
+              </HStack>
+              <Text>Create</Text>
+              <Divider orientation="vertical" h="40px" />
+              <Text>Home</Text>
+            </HStack>
+            {/* buttons */}
+            <Button
+              bg="white"
+              size="sm"
+              p="0"
+              _hover={{
+                bg: 'white',
+                transform: 'scale(1.2) translateY(-0.27rem)',
+              }}
+            >
+              <Icon as={FaFacebookMessenger} color="#b9e9f4" boxSize="7" />
+            </Button>
+            <Button
+              bg="white"
+              variant="solid"
+              p="0"
+              size="sm"
+              _hover={{
+                bg: 'white',
+                transform: 'scale(1.2) translateY(-0.27rem)',
+              }}
+            >
+              <Icon as={FaBell} color="#b9e9f4" boxSize="6" />
+            </Button>
+            <Button
+              bg="white"
+              variant="solid"
+              p="0"
+              _hover={{
+                bg: 'white',
+              }}
+            >
+              <Icon as={MdPersonAdd} color="#e8e8e8" boxSize="6" />
+            </Button>
+            <Button
+              bg="white"
+              variant="solid"
+              p="0"
+              _hover={{
+                bg: 'white',
+              }}
+            >
+              <Icon as={BsFillQuestionCircleFill} color="#e8e8e8" boxSize="5" />
+            </Button>
+            <Menu >
+                <MenuButton as={Button} bg="white"
+              variant="solid"
+              p="0"
+              _hover={{
+                bg: 'white',
+              }}>
+                  <Icon as={GoTriangleDown} color="#e8e8e8" boxSize="5"/>
+                </MenuButton>
+                <MenuList zIndex="modal">
+                  <MenuItem>Download</MenuItem>
+                  <MenuItem>Create a Copy</MenuItem>
+                  <MenuItem>Mark as Draft</MenuItem>
+                  <MenuItem>Delete</MenuItem>
+                  <MenuItem>Attend a Workshop</MenuItem>
+                </MenuList>
+              </Menu>
+          </HStack>
+        </HStack>
+      </Container>
+    </Box>
   );
-}
+};

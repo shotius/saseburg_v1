@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router';
+import { PageLoadSpinner } from 'src/components/molecules/PageLoadSpinner/PageLoadSpinner';
 import { useMeQuery } from 'src/generated/graphql';
 
 interface AuthRouteProps {
@@ -13,7 +14,7 @@ export const AuthRoute: React.FC<AuthRouteProps> = ({
 }) => {
   const [{ data, fetching }] = useMeQuery();
   if (fetching) {
-    return <div>...loading</div>;
+    return <PageLoadSpinner />;
   }
   return (
     <Route

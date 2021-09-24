@@ -1,27 +1,28 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import {
-  BrowserRouter as Router, Redirect,
-  Route, Switch
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
 } from 'react-router-dom';
 import { autoLogin, useAppDispatch } from 'src/redux_tk';
 import { createClient, Provider as UrqlProvider } from 'urql';
-import { Login } from './pages';
-import { Home } from './pages/Home';
+import { PageLoadSpinner } from './components/molecules/PageLoadSpinner/PageLoadSpinner';
 import { AuthRoute } from './utils/HOC/AuthRoute';
 import PrivateRoute from './utils/HOC/PrivateRoute';
 
+const Home = lazy(() =>import('./pages/Home'));
+const Login = lazy(() => import('./pages/Login'));
 
 const client = createClient({
   url: 'http://localhost:4000/graphql',
   fetchOptions: {
-    credentials: "include"
-  }
+    credentials: 'include',
+  },
 });
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
-
-
 
   // if reload happends authenticate user
   if (true) {
@@ -30,16 +31,18 @@ const App: React.FC = () => {
 
   return (
     <UrqlProvider value={client}>
+      <Suspense fallback={<PageLoadSpinner />}>
         <Router>
           <Switch>
             <Route path="/" exact>
               <Redirect to="/home" />
             </Route>
             <PrivateRoute component={Home} path="/home" exact />
-            <AuthRoute component={Login} path="/login" exact/>
+            <AuthRoute component={Login} path="/login" exact />
             {/* <AuthRoute component={SignUp} path="/signUp" exact/> */}
           </Switch>
         </Router>
+      </Suspense>
     </UrqlProvider>
   );
 };

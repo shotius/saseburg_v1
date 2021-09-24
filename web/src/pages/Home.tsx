@@ -5,6 +5,8 @@ interface HomeProps {
 
 }
 
-export const Home: React.FC<HomeProps> = () => {
+const Home: React.FC<HomeProps> = () => {
     return <HomeTemplate /> ;
 }
+
+export default Home

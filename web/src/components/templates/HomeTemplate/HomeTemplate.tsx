@@ -11,20 +11,26 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
       <Flex>
         <Box
           bg="#f2f2f4"
-          w="240px"
+          position="fixed"
           h="92vh"
-          position="sticky"
+          w="240px"
+          t="0"
+          l="0"
           display={{ base: 'none', md: 'block' }}
-        ></Box>
+        >
+          sdfasdf
+        </Box>
         <Flex
           justifyContent="space-between"
           w="full"
           bg="#f6f8fa"
-          h="92vh"
+          h="200vh"
           pt={['2', '4', '6']}
           px={['2', '4', '8']}
+          ml="240px"
           shadow="-10px 10px 20px 0 rgba(0,0, 0, 0.07) "
           zIndex="docked"
+          position="relative"
         >
           <Box
             bg="white"
@@ -32,13 +38,15 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
             borderRadius="5px"
             borderColor="lightgray"
             flex={1}
-            h="100px"
             p="10"
             mr={{ base: '0', lg: '8' }}
+            h="200vh"
+            position="sticky"
           >
             <Posts />
           </Box>
           <Box
+            className="shaky"
             p="10"
             bg="white"
             border="1px"
@@ -46,8 +54,10 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
             borderColor="lightgray"
             flex={0.5}
             display={{ base: 'none', lg: 'block' }}
+            top="97px"
+            alignSelf="flex-start"
           >
-            Stories
+            Sotry
           </Box>
         </Flex>
       </Flex>

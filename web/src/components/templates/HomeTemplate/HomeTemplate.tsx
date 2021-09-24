@@ -8,23 +8,22 @@ interface HomeTemplateProps {}
 export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
   return (
     <PrivateLayout>
-      <Flex>
+      <Flex position="relative">
         <Box
           bg="#f2f2f4"
           position="fixed"
+          top="72px"
           h="92vh"
           w="240px"
-          t="0"
-          l="0"
           display={{ base: 'none', md: 'block' }}
         >
-          sdfasdf
+         sider
         </Box>
         <Flex
           justifyContent="space-between"
           w="full"
           bg="#f6f8fa"
-          h="200vh"
+          h="300vh"
           pt={['2', '4', '6']}
           px={['2', '4', '8']}
           ml={{base: "0", md: "240px"}}
@@ -41,8 +40,6 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
             p="10"
             mr={{ base: '0', lg: '8' }}
             h="200vh"
-            position="sticky"
-            top="97px"
           >
             <Posts />
           </Box>
@@ -57,6 +54,8 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
             display={{ base: 'none', lg: 'block' }}
             top="97px"
             alignSelf="flex-start"
+            position="sticky"
+
           >
             Sotry
           </Box>

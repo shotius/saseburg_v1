@@ -12,6 +12,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
       <Container p={0} variant="full" bg="gray">
         {children}
       </Container>
+      <Box h="300px" bg="black"></Box>
     </Box>
   );
 };

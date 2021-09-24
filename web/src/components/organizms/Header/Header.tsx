@@ -21,7 +21,7 @@ export const Header: React.FC<HeaderProps> = () => {
       <Container maxW="1560px" variant="full">
         <HStack justifyContent="space-between" alignItems="center">
           {/* logo */}
-          <HStack mr="12">
+          <HStack mr="20">
             <Icon as={BsApp} boxSize="10" color="#53a2ce" />
             <Text>Sasesurg</Text>
           </HStack>

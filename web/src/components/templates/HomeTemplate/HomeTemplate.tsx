@@ -27,7 +27,7 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
           h="200vh"
           pt={['2', '4', '6']}
           px={['2', '4', '8']}
-          ml="240px"
+          ml={{base: "0", md: "240px"}}
           shadow="-10px 10px 20px 0 rgba(0,0, 0, 0.07) "
           zIndex="docked"
           position="relative"
@@ -42,6 +42,7 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
             mr={{ base: '0', lg: '8' }}
             h="200vh"
             position="sticky"
+            top="97px"
           >
             <Posts />
           </Box>

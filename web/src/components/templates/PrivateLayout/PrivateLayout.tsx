@@ -9,7 +9,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
   return (
     <Box>
       <Header />
-      <Container p={0} variant="full" bg="gray">
+      <Container p={0} variant="large" bg="gray">
         {children}
       </Container>
       <Box h="300px" bg="black"></Box>

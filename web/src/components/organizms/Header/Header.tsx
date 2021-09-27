@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/button';
 import Icon from '@chakra-ui/icon';
 import { InputGroup, InputRightElement } from '@chakra-ui/input';
 import { Box, Divider, HStack, Text } from '@chakra-ui/layout';
-import { Avatar, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Avatar } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -11,6 +11,7 @@ import { FaBell, FaFacebookMessenger } from 'react-icons/fa';
 import { GoTriangleDown } from 'react-icons/go';
 import { MdPersonAdd } from 'react-icons/md';
 import { InputField } from 'src/components/molecules/InputField';
+import { MenuHamburger } from 'src/components/molecules/MenuHamburger';
 import { Container } from '../../atoms/Container';
 
 interface HeaderProps {}
@@ -19,15 +20,14 @@ export const Header: React.FC<HeaderProps> = () => {
   return (
     <Box h="4.6rem" zIndex="modal" bg="white" position="sticky" top="0">
       <Container
-        maxW="1560px"
-        variant="full"
+        variant="large"
         display="flex"
         alignItems="center"
         h="100%"
         w="100%"
       >
         {/* logo */}
-        <HStack mr={["auto", "20"]}>
+        <HStack mr={['auto', '20']}>
           <Icon as={BsApp} boxSize="10" color="#53a2ce" />
           <Text>Saseburg</Text>
         </HStack>
@@ -77,21 +77,10 @@ export const Header: React.FC<HeaderProps> = () => {
         </HStack>
         {/* humburer menu */}
         <HStack display={{ md: 'none' }} ml="3">
-          <Menu>
-            <MenuButton as={Button}>
-              <Icon as={AiOutlineMenu} />
-            </MenuButton>
-            <MenuList zIndex="modal">
-              <MenuItem>Download</MenuItem>
-              <MenuItem>Create a Copy</MenuItem>
-              <MenuItem>Mark as Draft</MenuItem>
-              <MenuItem>Delete</MenuItem>
-              <MenuItem>Attend a Workshop</MenuItem>
-            </MenuList>
-          </Menu>
+          <MenuHamburger icon={AiOutlineMenu} />
         </HStack>
+        {/* avatar */}
         <HStack display={{ base: 'none', md: 'flex' }}>
-          {/* avatar */}
           <HStack display={{ base: 'none', lg: 'flex' }} mx="4" spacing={4}>
             <Avatar
               name="Code Beast"
@@ -107,72 +96,50 @@ export const Header: React.FC<HeaderProps> = () => {
             <Divider orientation="vertical" h="40px" />
             <Text>Home</Text>
           </HStack>
-          <HStack alignSelf="stretch" h="100%">
-            {/* buttons */}
-            <Button
-              bg="white"
-              size="sm"
-              p="0"
-              _hover={{
-                bg: 'white',
-                transform: 'scale(1.2) translateY(-0.27rem)',
-              }}
-            >
-              <Icon as={FaFacebookMessenger} color="#b9e9f4" boxSize="7" />
-            </Button>
-            <Button
-              bg="white"
-              variant="solid"
-              p="0"
-              size="sm"
-              _hover={{
-                bg: 'white',
-                transform: 'scale(1.2) translateY(-0.27rem)',
-              }}
-            >
-              <Icon as={FaBell} color="#b9e9f4" boxSize="6" />
-            </Button>
-            <Button
-              bg="white"
-              variant="solid"
-              p="0"
-              _hover={{
-                bg: 'white',
-              }}
-            >
-              <Icon as={MdPersonAdd} color="#e8e8e8" boxSize="6" />
-            </Button>
-            <Button
-              bg="white"
-              variant="solid"
-              p="0"
-              _hover={{
-                bg: 'white',
-              }}
-            >
-              <Icon as={BsFillQuestionCircleFill} color="#e8e8e8" boxSize="5" />
-            </Button>
-            <Menu>
-              <MenuButton
-                as={Button}
-                bg="white"
-                variant="solid"
-                p="0"
-                _hover={{
-                  bg: 'white',
-                }}
-              >
-                <Icon as={GoTriangleDown} color="#e8e8e8" boxSize="5" />
-              </MenuButton>
-              <MenuList zIndex="modal">
-                <MenuItem>Download</MenuItem>
-                <MenuItem>Create a Copy</MenuItem>
-                <MenuItem>Mark as Draft</MenuItem>
-                <MenuItem>Delete</MenuItem>
-                <MenuItem>Attend a Workshop</MenuItem>
-              </MenuList>
-            </Menu>
-          </HStack>
+          {/* buttons */}
+          <Button
+            bg="white"
+            size="sm"
+            p="0"
+            _hover={{
+              bg: 'white',
+              transform: 'scale(1.2) translateY(-0.27rem)',
+            }}
+          >
+            <Icon as={FaFacebookMessenger} color="#b9e9f4" boxSize="7" />
+          </Button>
+          <Button
+            bg="white"
+            p="0"
+            size="sm"
+            _hover={{
+              bg: 'white',
+              transform: 'scale(1.2) translateY(-0.27rem)',
+            }}
+          >
+            <Icon as={FaBell} color="#b9e9f4" boxSize="6" />
+          </Button>
+          <Button
+            bg="white"
+            variant="solid"
+            p="0"
+            _hover={{
+              bg: 'white',
+            }}
+          >
+            <Icon as={MdPersonAdd} color="#e8e8e8" boxSize="6" />
+          </Button>
+          <Button
+            bg="white"
+            variant="solid"
+            p="0"
+            _hover={{
+              bg: 'white',
+            }}
+          >
+            <Icon as={BsFillQuestionCircleFill} color="#e8e8e8" boxSize="5" />
+          </Button>
+          <MenuHamburger icon={GoTriangleDown} />
         </HStack>
       </Container>
     </Box>

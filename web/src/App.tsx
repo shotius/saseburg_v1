@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { autoLogin, useAppDispatch } from 'src/redux_tk';
 import { createClient, Provider as UrqlProvider } from 'urql';
-import { PageLoadSpinner } from './components/molecules/PageLoadSpinner/PageLoadSpinner';
+import { PageLoadSpinner } from './components/molecules/PageLoadSpinner';
 import { AuthRoute } from './utils/HOC/AuthRoute';
 import PrivateRoute from './utils/HOC/PrivateRoute';
 

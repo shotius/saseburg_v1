@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router';
-import { PageLoadSpinner } from 'src/components/molecules/PageLoadSpinner/PageLoadSpinner';
+import { PageLoadSpinner } from 'src/components/molecules/PageLoadSpinner';
 import { useMeQuery } from 'src/generated/graphql';
 
 interface AuthRouteProps {

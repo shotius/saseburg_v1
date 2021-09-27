@@ -44,7 +44,6 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = () => {
             <Posts />
           </Box>
           <Box
-            className="shaky"
             p="10"
             bg="white"
             border="1px"
